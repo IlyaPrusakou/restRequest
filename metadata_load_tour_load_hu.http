@@ -26,3 +26,18 @@ x-csrf-token: {{metadata.response.headers.x-csrf-token}}
   "HandlingUnitNumber": "623356",
   "LoadingLogicalPosition": "2"
 }
+
+###
+
+// let's try to load assigned handling unit with exceeded loading position
+POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{
+  "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
+  "EWMWarehouse": "BS01",
+  "WarehouseResource": "IL_4",
+  "HandlingUnitNumber": "623361",
+  "LoadingLogicalPosition": "10"
+}
