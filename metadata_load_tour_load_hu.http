@@ -14,6 +14,7 @@ Authorization: Basic {{myAuthorization}}
 
 ###
 
+// let's try to load already unloaded handling unit
 POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
 Authorization: Basic {{myAuthorization}}
 x-csrf-token: {{metadata.response.headers.x-csrf-token}}
@@ -22,6 +23,6 @@ x-csrf-token: {{metadata.response.headers.x-csrf-token}}
   "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
   "EWMWarehouse": "BS01",
   "WarehouseResource": "IL_4",
-  "HandlingUnitNumber": "623361",
-  "LoadingLogicalPosition": "rr"
+  "HandlingUnitNumber": "623356",
+  "LoadingLogicalPosition": "2"
 }
