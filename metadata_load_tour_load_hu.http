@@ -41,3 +41,48 @@ x-csrf-token: {{metadata.response.headers.x-csrf-token}}
   "HandlingUnitNumber": "623361",
   "LoadingLogicalPosition": "10"
 }
+
+###
+
+// let's try to load assigned handling unit with invalid position
+POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{
+  "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
+  "EWMWarehouse": "BS01",
+  "WarehouseResource": "IL_4",
+  "HandlingUnitNumber": "623361",
+  "LoadingLogicalPosition": "10-2"
+}
+
+###
+
+// let's try to load assigned handling unit with non-numeric position
+POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{
+  "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
+  "EWMWarehouse": "BS01",
+  "WarehouseResource": "IL_4",
+  "HandlingUnitNumber": "623361",
+  "LoadingLogicalPosition": "r"
+}
+
+###
+
+// let's try to load already loaded handling unit
+POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{
+  "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
+  "EWMWarehouse": "BS01",
+  "WarehouseResource": "ZZ_IL_ALL_TV9",
+  "HandlingUnitNumber": "623370",
+  "LoadingLogicalPosition": "3"
+}
