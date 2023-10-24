@@ -1,0 +1,27 @@
+@url = {{xx5Host}}/sap/opu/odata4/sap/api_ilo_touroperations_o4/srvd_a2x/sap/touroperations/0001/
+@tour_id = 13834
+
+# @name metadata
+GET  {{url}}$metadata?sap-client=405
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: fetch
+
+###
+
+# @name get_tour_id 
+GET {{url}}LoadingTours?sap-client=405&sap-language=EN&$filter=IntralogisticsOperationsTour eq '{{tour_id}}'&$expand=_TourOpsLoadgHndlgUnit
+Authorization: Basic {{myAuthorization}}
+
+###
+
+POST {{url}}LoadingTours/SAP__self.LoadHandlingUnitOnTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{
+  "IntrLogsOpTourUUID": "{{get_tour_id.response.body.value[0].IntrLogsOpTourUUID}}", 
+  "EWMWarehouse": "BS01",
+  "WarehouseResource": "IL_4",
+  "HandlingUnitNumber": "623361",
+  "LoadingLogicalPosition": "rr"
+}
