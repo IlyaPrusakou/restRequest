@@ -1,0 +1,36 @@
+@url = {{xx5Host}}/sap/opu/odata4/sap/api_ilo_touroperations_o4/srvd_a2x/sap/touroperations/0001/
+@tour_id = 13839
+@hu = 00000000000000623389
+
+# @name metadata
+GET  {{url}}$metadata?sap-client=405
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: fetch
+
+###
+
+# @name get_tour_id 
+GET {{url}}LoadingTours?sap-client=405&sap-language=EN&$filter=IntralogisticsOperationsTour eq '{{tour_id}}'&$expand=_TourOpsLoadgHndlgUnit
+Authorization: Basic {{myAuthorization}}
+
+###
+
+# @name get_tour_id 
+GET {{url}}LoadingTours(IntrLogsOpTourUUID=42010aef-1987-1ede-9cfc-74496d3aba8c)?sap-client=405&sap-language=EN&$expand=_TourOpsLoadgHndlgUnit
+Authorization: Basic {{myAuthorization}}
+
+###
+
+GET {{url}}LoadingHandlingUnits(HandlingUnitNumber='{{hu}}',EWMWarehouse='BS01') HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+
+###
+
+// let's try to load already unloaded handling unit
+POST {{url}}LoadingHandlingUnits(HandlingUnitNumber='{{hu}}',EWMWarehouse='BS01')/SAP__self.ReverseLoadingFromTour HTTP/1.1
+Authorization: Basic {{myAuthorization}}
+x-csrf-token: {{metadata.response.headers.x-csrf-token}}
+
+{ 
+  "WarehouseStorageBin": "5U01-5S02-01"
+}
